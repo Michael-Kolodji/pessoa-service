@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.michael.model.PessoaModel;
 import br.com.michael.model.ResponseModel;
 import br.com.michael.repository.PessoaRepository;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @CrossOrigin(origins= "http://localhost:4200")
 @RestController
@@ -24,11 +27,12 @@ public class PessoaService {
 	@Autowired
 	private PessoaRepository pessoaRepository;
 	
-	/**
-	 * SALVAR UM NOVO REGISTRO
-	 * @param pessoa
-	 * @return
-	 */
+	@ApiOperation(value="Cadastrar uma nova pessoa", response=ResponseModel.class, 
+					notes="Essa operação salva um novo registro com as informações de uma pessoa.")
+	@ApiResponses(value= {
+					@ApiResponse(code=200, message="Retorna um ResponseModel com uma mensagem de sucesso", response=ResponseModel.class),
+					@ApiResponse(code=500, message="Caso aconteça algum erro vamos retornar um ResponseModel com a Exception", response=ResponseModel.class)
+	})
 	@RequestMapping(value="/pessoa", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_UTF8_VALUE, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public @ResponseBody ResponseModel salvar(@RequestBody PessoaModel pessoa) {
 		
@@ -42,11 +46,12 @@ public class PessoaService {
 		}
 	}
 	
-	/**
-	 * ATUALIZAR O REGISTRO DE UMA PESSOA
-	 * @param pessoa
-	 * @return
-	 */
+	@ApiOperation(value="Atualizar um cadastro de pessoa já existente", response=ResponseModel.class,
+					notes="Essa operação atualiza o registro existente com novas informações.")
+	@ApiResponses(value= {
+			@ApiResponse(code=200, message="Retorna um ResponseModel com uma mensagem de sucesso", response=ResponseModel.class),
+			@ApiResponse(code=500, message="Caso aconteça algum erro vamos retornar um ResponseModel com a Exception", response=ResponseModel.class)
+	})
 	@RequestMapping(value="/pessoa", method = RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public @ResponseBody ResponseModel atualizar(@RequestBody PessoaModel pessoa){
 		try {
